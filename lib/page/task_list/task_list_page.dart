@@ -21,7 +21,7 @@ class TaskListPage extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("toggl_starter"),
+        title: Text("TogglStarter"),
         actions: [
           IconButton(
             icon: Icon(
