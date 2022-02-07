@@ -9,7 +9,11 @@ class TaskListCubit extends Cubit<List<Task>> {
         super([]);
   final TaskRepository _taskRepository;
 
-  Future<void> fetch() async => emit(await _taskRepository.fetchList());
-
+  Future<void> fetchToday() async {
+		final today = DateTime.now().toUtc().toString().split(' ')[0];
+		final taskList = await _taskRepository.fetchList();
+		final taskListToday = taskList.where((task) => task.dueDate == today).toList();
+		emit(taskListToday);
+	}
   Future<void> start(Task task) async => await _taskRepository.start(task);
 }
