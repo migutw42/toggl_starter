@@ -7,11 +7,13 @@ import 'package:toggl_starter/entity/task.dart';
 import 'package:toggl_starter/page/task_list/widgets/task_list_tile.dart';
 
 class TaskListPage extends HookWidget {
+  const TaskListPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     useEffect(() {
       () async {
-        await context.read<TaskListCubit>().fetch();
+        await context.read<TaskListCubit>().fetchToday();
       }();
       return () {};
     }, []);
@@ -21,10 +23,10 @@ class TaskListPage extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("TogglStarter"),
+        title: const Text("TogglStarter"),
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.settings,
             ),
             onPressed: () {
@@ -40,14 +42,14 @@ class TaskListPage extends HookWidget {
               return RefreshIndicator(
                 child: child!,
                 onRefresh: () async {
-                  await context.read<TaskListCubit>().fetch();
+                  await context.read<TaskListCubit>().fetchToday();
                 },
               );
             },
           ),
         ],
         child: ListView.builder(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           itemCount: taskList.length,
           itemBuilder: (context, index) {
             final task = taskList[index];

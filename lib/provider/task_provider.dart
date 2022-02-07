@@ -29,6 +29,7 @@ class TaskProvider {
         .map((taskMap) => Task(
               id: taskMap['id'],
               content: taskMap['content'],
+							dueDate: taskMap.containsKey('due') && taskMap['due'].containsKey('date') ? taskMap['due']['date'] : '',
             ))
         .toList();
   }
