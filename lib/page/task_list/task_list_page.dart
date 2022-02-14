@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:nested/nested.dart';
 import 'package:toggl_starter/bloc/task_list_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toggl_starter/entity/task.dart';
 import 'package:toggl_starter/page/task_list/widgets/task_list_tile.dart';
 
 class TaskListPage extends HookWidget {
@@ -18,7 +17,7 @@ class TaskListPage extends HookWidget {
       return () {};
     }, []);
 
-    final taskList = context.watch<TaskListCubit>().state;
+    final showTaskList = context.watch<TaskListCubit>().state;
 
     return Scaffold(
       appBar: AppBar(
@@ -50,11 +49,11 @@ class TaskListPage extends HookWidget {
         ],
         child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: taskList.length,
+          itemCount: showTaskList.length,
           itemBuilder: (context, index) {
-            final task = taskList[index];
+            final task = showTaskList[index];
 
-            return TaskListTile(task: task, onTap: _startTask);
+            return TaskListTile(showTask: task, onTap: _startTask);
           },
         ),
       ),
@@ -62,12 +61,12 @@ class TaskListPage extends HookWidget {
   }
 }
 
-Future<void> _startTask(BuildContext context, Task task) async {
-  await context.read<TaskListCubit>().start(task);
+Future<void> _startTask(BuildContext context, ShowTask showTask) async {
+  await context.read<TaskListCubit>().start(showTask.task);
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text('${task.content} is started.'),
+      content: Text('${showTask.task.content} is started.'),
     ),
   );
 }
